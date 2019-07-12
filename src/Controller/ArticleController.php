@@ -21,6 +21,8 @@ class ArticleController
 
     /**
      * @Route("/news/{slug}")
+     * @param $slug
+     * @return Response
      */
     public function news($slug)
     {
