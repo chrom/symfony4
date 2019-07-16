@@ -9,6 +9,7 @@ namespace App\Controller;
 use Michelf\MarkdownInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,7 +37,7 @@ class ArticleController extends AbstractController
      * @param $slug
      * @return Response
      */
-    public function news($slug, MarkdownInterface $markdown)
+    public function news($slug, MarkdownInterface $markdown, AdapterInterface $cache)
     {
         $comments = [
             'Hi',
@@ -71,7 +72,7 @@ Meatball adipisicing ribeye bacon strip steak eu. Consectetur ham hock pork hamb
     shoulder tail consectetur
     cow est ribeye adipisicing. Pig hamburger pork belly enim. Do porchetta minim
     capicola irure pancetta chuck
-    fugiat.
+    **fugiat**.
 
 Sausage tenderloin officia jerky nostrud. Laborum elit pastrami non, pig kevin
     buffalo minim ex quis. Pork belly
@@ -91,6 +92,15 @@ Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui 
     belly tongue alcatra, shoulder excepteur in beef bresaola duis ham bacon eiusmod.
     Doner drumstick short loin,
     adipisicing cow cillum tenderloin.";
+
+        $item = $cache->getItem('markdown_' . md5($contentData));
+        if (!$item->isHit()){
+            $item->set($markdown->transform($contentData));
+            $cache->save($item);
+        }
+        $contentData = $item->get();
+
+
         $contentData = $markdown->transform($contentData);
 //        dump($slug, $this);
         return $this->render('article/show.html.twig', [
