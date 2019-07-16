@@ -13,11 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="app_index")
      */
     public function index()
     {
-        return new Response('OMG!');
+        return $this->render('article/homepage.html.twig');
     }
 
     /**
@@ -29,7 +29,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/news/{slug}")
+     * @Route("/news/{slug}", name="article_show")
      * @param $slug
      * @return Response
      */
