@@ -41,6 +41,12 @@
             "config/packages/dev/easy_log_handler.yaml"
         ]
     },
+    "knplabs/knp-markdown-bundle": {
+        "version": "1.7.1"
+    },
+    "michelf/php-markdown": {
+        "version": "1.8.0"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
