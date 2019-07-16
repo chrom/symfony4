@@ -21,6 +21,14 @@ class ArticleController extends AbstractController
     }
 
     /**
+     * @Route("/test")
+     */
+    public function test()
+    {
+        return new Response('test!');
+    }
+
+    /**
      * @Route("/news/{slug}")
      * @param $slug
      * @return Response
@@ -30,6 +38,8 @@ class ArticleController extends AbstractController
         $comments = [
             'Hi', 'Uhh', 'Cool!'
         ];
+
+//        dump($slug, $this);
         return $this->render('article/show.html.twig', [
             'title' => ucwords(str_replace('-', '', $slug)),
             'comments'=> $comments
