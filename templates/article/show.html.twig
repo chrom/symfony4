@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{%  block title %} Read {{ title }}{% endblock %}
+{% block body %}
+<h1>{{ title }}</h1>
+
+
+<div>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sagittis ligula nec eros congue, quis luctus
+    lectus rhoncus. Pellentesque nec est euismod, vulputate tellus et, lacinia est. Nam velit velit, luctus at est sit
+    amet, viverra hendrerit nisi. Fusce condimentum dictum placerat. Aliquam eu metus vitae sem elementum dignissim.
+    Integer semper tincidunt massa sit amet interdum. Duis quis nisi justo.
+
+    Maecenas et tristique felis. Aenean ultrices nunc vitae tellus commodo viverra. Sed non nisl non ligula luctus
+    porttitor et vel nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+    Nunc id mauris vel lectus fermentum lacinia. Nulla in tempor leo. Nam enim metus, convallis nec enim a, dictum
+    malesuada neque. Sed purus eros, dictum et rhoncus ac, faucibus eget nibh. Duis sem sapien, ornare ut ante sed,
+    tincidunt euismod justo. Etiam rutrum et erat et ultrices.
+
+    Aliquam vitae neque in ante pretium hendrerit sed lacinia tellus. Suspendisse vel maximus risus, ut condimentum
+    nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut in suscipit
+    mi. Ut et cursus dui, gravida laoreet nulla. Nulla luctus magna sed ultricies sagittis. Etiam vehicula elit eget
+    venenatis placerat. Proin eget ex aliquet, accumsan dui et, maximus ipsum. Phasellus in ullamcorper tellus. In in
+    lacus dapibus, consectetur orci id, sagittis eros. Integer at iaculis ex.
+
+    Curabitur condimentum dui eu erat egestas, id tempus odio eleifend. Ut enim urna, rhoncus nec ornare eget, aliquam
+    id ipsum. Curabitur at suscipit dui, ac gravida mi. Mauris ac turpis metus. In hac habitasse platea dictumst.
+    Vestibulum in lobortis lacus. Cras vel fringilla ipsum. Nunc sagittis nulla id luctus maximus. Aliquam erat
+    volutpat. In a ante ut arcu consectetur convallis vitae quis tellus. Integer nec viverra massa, a vehicula orci.
+
+</div>
+
+<h2>Comments ({{ comments|length }})</h2>
+<ul>
+    {% for comment in comments %}
+        <li>{{ comment }}</li>
+    {% endfor %}
+
+</ul>
+{% endblock %}
