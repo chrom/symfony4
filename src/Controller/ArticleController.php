@@ -99,7 +99,7 @@ Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui 
             $cache->save($item);
         }
         $contentData = $item->get();
-
+        dump($markdown);die;
 
         $contentData = $markdown->transform($contentData);
 //        dump($slug, $this);
