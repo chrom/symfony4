@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 
-use Michelf\MarkdownInterface;
+use App\Servise\MarkdownHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
@@ -35,9 +35,12 @@ class ArticleController extends AbstractController
     /**
      * @Route("/news/{slug}", name="article_show")
      * @param $slug
+     * @param MarkdownInterface $markdown
+     * @param AdapterInterface $cache
+     * @param MarkdownHelper $markdownHelper
      * @return Response
      */
-    public function news($slug, MarkdownInterface $markdown, AdapterInterface $cache)
+    public function news($slug, MarkdownInterface $markdownHelper)
     {
         $comments = [
             'Hi',
@@ -93,16 +96,10 @@ Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui 
     Doner drumstick short loin,
     adipisicing cow cillum tenderloin.";
 
-        $item = $cache->getItem('markdown_' . md5($contentData));
-        if (!$item->isHit()){
-            $item->set($markdown->transform($contentData));
-            $cache->save($item);
-        }
-        $contentData = $item->get();
-        dump($markdown);die;
+//        dump($cache);die;
+        $contentData = $markdownHelper->parse($contentData);
 
-        $contentData = $markdown->transform($contentData);
-//        dump($slug, $this);
+//          dump($slug, $this);
         return $this->render('article/show.html.twig', [
             'title'       => ucwords(str_replace('-', '', $slug)),
             'comments'    => $comments,
