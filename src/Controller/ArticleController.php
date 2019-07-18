@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 
-use App\Servise\MarkdownHelper;
+use App\Services\MarkdownHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
@@ -35,12 +35,12 @@ class ArticleController extends AbstractController
     /**
      * @Route("/news/{slug}", name="article_show")
      * @param $slug
-     * @param MarkdownInterface $markdown
+     * @param MarkdownHelper $markdown
      * @param AdapterInterface $cache
      * @param MarkdownHelper $markdownHelper
      * @return Response
      */
-    public function news($slug, MarkdownInterface $markdownHelper)
+    public function news($slug, MarkdownHelper $markdownHelper)
     {
         $comments = [
             'Hi',
