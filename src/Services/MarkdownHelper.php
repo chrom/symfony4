@@ -31,11 +31,11 @@ class MarkdownHelper
      * @param MarkdownHelper $markdownHelper
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct(AdapterInterface $cache, MarkdownParserInterface $markdownHelper, LoggerInterface $logger)
+    public function __construct(AdapterInterface $cache, MarkdownParserInterface $markdownHelper, LoggerInterface $markdownLogger)
     {
         $this->cache = $cache;
         $this->markdownHelper = $markdownHelper;
-        $this->logger = $logger;
+        $this->logger = $markdownLogger;
     }
 
     public function parse(string $source): string

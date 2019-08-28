@@ -6,6 +6,6 @@
 
 ``./bin/console debug:config framework`` - Current configuration of `ramework`
 
-`` ./bin/console debug:container monolog.logger `` - show container configuration
+`` ./bin/console debug:container monolog.logger`` - show container configuration
 
 ``./bin/console debug:container --show-private log `` - show logger services
