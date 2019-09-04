@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace App\Services;
-
 
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use Psr\Log\LoggerInterface;
@@ -28,8 +26,8 @@ class MarkdownHelper
     /**
      * MarkdownHelper constructor.
      * @param AdapterInterface $cache
-     * @param MarkdownHelper $markdownHelper
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param MarkdownParserInterface $markdownHelper
+     * @param LoggerInterface $markdownLogger
      */
     public function __construct(AdapterInterface $cache, MarkdownParserInterface $markdownHelper, LoggerInterface $markdownLogger)
     {

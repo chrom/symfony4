@@ -1,0 +1,4 @@
+parameters:
+    cache_adapter: cache.adapter.redis
+
+
