@@ -17,23 +17,29 @@ class MarkdownHelper
     /**
      * @var MarkdownHelper
      */
-    private $markdownHelper;
+    private $markdown;
     /**
      * @var LoggerInterface
      */
     private $logger;
+    /**
+     * @var bool
+     */
+    private $isDebug;
 
     /**
      * MarkdownHelper constructor.
      * @param AdapterInterface $cache
      * @param MarkdownParserInterface $markdownHelper
      * @param LoggerInterface $markdownLogger
+     * @param bool $isDebug
      */
-    public function __construct(AdapterInterface $cache, MarkdownParserInterface $markdownHelper, LoggerInterface $markdownLogger)
+    public function __construct(AdapterInterface $cache, MarkdownParserInterface $markdownHelper, LoggerInterface $markdownLogger, bool $isDebug)
     {
         $this->cache = $cache;
-        $this->markdownHelper = $markdownHelper;
+        $this->markdown = $markdownHelper;
         $this->logger = $markdownLogger;
+        $this->isDebug = $isDebug;
     }
 
     public function parse(string $source): string
@@ -41,9 +47,14 @@ class MarkdownHelper
         if(stripos($source, 'bacon')){
             $this->logger->info('The bacon again!');
         }
+
+        if($this->isDebug){
+            return $this->markdown->transform($source);
+        }
+
         $item = $this->cache->getItem('markdown_' . md5($source));
         if (!$item->isHit()){
-            $item->set($this->markdownHelper->transform($source));
+            $item->set($this->markdown->transform($source));
             $this->cache->save($item);
         }
         return $item->get();

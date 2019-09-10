@@ -1,11 +1,41 @@
-``./bin/console debug:container --show-private`` - show all services 
+- Show all services 
+```bash 
+./bin/console debug:container --show-private
+``` 
 
-``./bin/console debug:autowiring --all`` - Current autowiring
+***
+- show all parameters 
+```bash 
+./bin/console debug:container --parameters
+```
+ 
+***
+ - show container configuration
+```bash 
+./bin/console debug:container monolog.logger
+```
 
-``./bin/console config:dump framework`` - Existing example configuration of `ramework`
+***
+ - show logger services
+```bash 
+./bin/console debug:container --show-private log 
+```
 
-``./bin/console debug:config framework`` - Current configuration of `ramework`
+***
+ - Current autowiring
+```bash 
+./bin/console debug:autowiring --all
+```
 
-`` ./bin/console debug:container monolog.logger`` - show container configuration
+***
+ - Existing example configuration of `ramework`
+```bash 
+./bin/console config:dump framework
+```
 
-``./bin/console debug:container --show-private log `` - show logger services
+***
+ - Current configuration of `ramework`
+```bash 
+./bin/console debug:config framework
+```
+
