@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Services\MarkdownHelper;
+use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
@@ -47,18 +48,27 @@ class ArticleController extends AbstractController
     /**
      * @Route("/news/{slug}", name="article_show")
      * @param $slug
-     * @param MarkdownHelper $markdown
-     * @param AdapterInterface $cache
      * @param MarkdownHelper $markdownHelper
+     * @param Client $slack
      * @return Response
+     * @throws \Http\Client\Exception
      */
-    public function news($slug, MarkdownHelper $markdownHelper)
+    public function news($slug, MarkdownHelper $markdownHelper, Client $slack)
     {
         $comments = [
             'Hi',
             'Uhh',
             'Cool!'
         ];
+
+        if($slug == 'hey'){
+            $message = $slack->createMessage()
+                ->from('John Doe')
+                ->withIcon(':ghost:')
+                ->setText('Hi Andrew, have a new idea!!!');
+
+            $slack->sendMessage($message);
+        }
 
         $contentData = "
  **Spicy jalapeno bacon ipsum dolor amet veniam shank in dolore. Ham hock nisi

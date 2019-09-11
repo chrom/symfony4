@@ -1,4 +1,7 @@
 {
+    "clue/stream-filter": {
+        "version": "v1.4.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -41,6 +44,15 @@
             "config/packages/dev/easy_log_handler.yaml"
         ]
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.6.1"
+    },
     "knplabs/knp-markdown-bundle": {
         "version": "1.7.1"
     },
@@ -49,6 +61,48 @@
     },
     "monolog/monolog": {
         "version": "1.24.0"
+    },
+    "nexylan/slack": {
+        "version": "v2.3.0"
+    },
+    "nexylan/slack-bundle": {
+        "version": "v2.2.0"
+    },
+    "php-http/client-common": {
+        "version": "2.0.0"
+    },
+    "php-http/discovery": {
+        "version": "1.7.0"
+    },
+    "php-http/guzzle6-adapter": {
+        "version": "v2.0.1"
+    },
+    "php-http/httplug": {
+        "version": "v2.0.0"
+    },
+    "php-http/httplug-bundle": {
+        "version": "1.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.6",
+            "ref": "4655962c64e2de96c418caf576c57215711c7877"
+        }
+    },
+    "php-http/logger-plugin": {
+        "version": "1.1.0"
+    },
+    "php-http/message": {
+        "version": "1.8.0"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
+    },
+    "php-http/promise": {
+        "version": "v1.0.0"
+    },
+    "php-http/stopwatch-plugin": {
+        "version": "1.2.0"
     },
     "predis/predis": {
         "version": "v1.1.1"
@@ -59,8 +113,17 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.1.0"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -209,6 +272,9 @@
             "config/packages/prod/monolog.yaml",
             "config/packages/test/monolog.yaml"
         ]
+    },
+    "symfony/options-resolver": {
+        "version": "v4.3.4"
     },
     "symfony/polyfill-intl-idn": {
         "version": "v1.11.0"
