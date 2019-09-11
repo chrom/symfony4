@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace App\Controller;
-
 
 use App\Services\MarkdownHelper;
 use Psr\Log\LoggerInterface;
@@ -16,6 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleController extends AbstractController
 {
+    /**
+     * @var bool Not used right now
+     */
+    private $isDebug;
+
+    /**
+     * ArticleController constructor.
+     * @param bool $isDebug
+     */
+    public function __construct(bool $isDebug)
+    {
+        $this->isDebug = $isDebug;
+    }
+
     /**
      * @Route("/", name="app_index")
      */
