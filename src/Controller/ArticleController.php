@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Services\MarkdownHelper;
+use App\Services\SlackClient;
 use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,7 +53,7 @@ class ArticleController extends AbstractController
      * @return Response
      * @throws \Http\Client\Exception
      */
-    public function news($slug, MarkdownHelper $markdownHelper, Client $slack)
+    public function news($slug, MarkdownHelper $markdownHelper, SlackClient $slack)
     {
         $comments = [
             'Hi',
@@ -62,12 +62,7 @@ class ArticleController extends AbstractController
         ];
 
         if($slug == 'hey'){
-            $message = $slack->createMessage()
-                ->from('John Doe')
-                ->withIcon(':ghost:')
-                ->setText('Hi Andrew, have a new idea!!!');
-
-            $slack->sendMessage($message);
+            $slack->sendMessage('John Doe', 'Hi Andrew, have a new idea!!!');
         }
 
         $contentData = "
