@@ -39,3 +39,9 @@
 ./bin/console debug:config framework
 ```
 
+***
+ - Get information about current instance
+```bash 
+./bin/console about
+```
+
