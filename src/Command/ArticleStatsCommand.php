@@ -16,25 +16,38 @@ class ArticleStatsCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->setDescription('Return some article stats')
+            ->addArgument('slug', InputArgument::REQUIRED, 'The article\'s slug ')
+            ->addOption('format', 'f', InputOption::VALUE_REQUIRED, 'The output format', 'text')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $slug = $input->getArgument('slug');
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        $data = [
+            'slug' => $slug,
+            'stars' => rand(10, 100)
+        ];
+
+        switch ($input->getOption('format')){
+            case 'text':
+                $rows = [];
+                foreach ($data as $key => $val) {
+                    $rows[] = [$key, $val];
+                }
+
+                $io->table(['Key', 'Value'], $rows);
+                break;
+            case 'json':
+                $io->write(\GuzzleHttp\json_encode($data));
+                break;
+            default:
+                throw new \Exception('What kind of crazy format is that?');
         }
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+//        $io->success('./bin/console article:stats hey -f json');
     }
 }
