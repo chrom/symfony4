@@ -45,3 +45,8 @@
 ./bin/console about
 ```
 
+***
+ - Bundle maker
+```bash 
+composer require maker --dev
+```
