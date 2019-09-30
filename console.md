@@ -50,3 +50,9 @@
 ```bash 
 composer require maker --dev
 ```
+
+***
+ - Create new database
+```bash 
+./bin/console  doctrine:database:create
+```
