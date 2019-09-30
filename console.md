@@ -56,3 +56,21 @@ composer require maker --dev
 ```bash 
 ./bin/console  doctrine:database:create
 ```
+
+***
+ - Create new entity - DTO model
+```bash 
+./bin/console make:entity
+```
+
+***
+ - Create new migration using model
+```bash 
+./bin/console make:migration
+```
+
+***
+ - Apply migration
+```bash 
+./bin/console doctrine:migrations:migrate
+```
