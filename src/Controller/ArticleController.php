@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Services\MarkdownHelper;
 use App\Services\SlackClient;
+use Doctrine\ORM\EntityManagerInterface;
 use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,15 +48,22 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/news/{slug}", name="article_show")
+     * @Route("/show/{slug}", name="article_show")
      * @param $slug
-     * @param MarkdownHelper $markdownHelper
-     * @param Client $slack
+     * @param EntityManagerInterface $entityManager
      * @return Response
-     * @throws \Http\Client\Exception
      */
-    public function news($slug, MarkdownHelper $markdownHelper, SlackClient $slack)
+    public function show($slug, EntityManagerInterface $entityManager)
     {
+        $repository = $entityManager->getRepository(Article::class);
+        /** @var Article $article */
+        $article = $repository->findOneBy(['slug' => $slug]);
+
+        if(!$article->getId()){
+            throw $this->createNotFoundException(sprintf('This article no exist!'));
+        }
+
+
         $comments = [
             'Hi',
             'Uhh',
@@ -62,66 +71,13 @@ class ArticleController extends AbstractController
         ];
 
         if($slug == 'hey'){
-            $slack->sendMessage('John Doe', 'Hi Andrew, have a new idea!!!');
+//            $slack->sendMessage('John Doe', 'Hi Andrew, have a new idea!!!');
         }
-
-        $contentData = "
- **Spicy jalapeno bacon ipsum dolor amet veniam shank in dolore. Ham hock nisi
-    landjaeger cow,
-    lorem proident beef ribs aute enim veniam ut cillum pork chuck picanha. Dolore
-    reprehenderit
-    labore minim pork belly spare ribs cupim short loin in. Elit exercitation eiusmod
-    dolore cow
-    turkey shank eu pork belly meatball non cupim.**
-
-*Laboris beef [ribs fatback fugiat eiusmod jowl kielbasa alcatra dolore] velit ea ball
-    tip.* Pariatur
-    laboris sunt venison, et laborum dolore minim non meatball. Shankle eu flank aliqua
-    shoulder,
-    capicola biltong frankfurter boudin cupim officia. Exercitation fugiat consectetur
-    ham. Adipisicing
-    picanha shank et filet mignon pork belly ut ullamco. Irure velit turducken ground
-    round doner incididunt
-    occaecat lorem meatball prosciutto quis strip steak.
-
-Meatball adipisicing ribeye bacon strip steak eu. Consectetur ham hock pork hamburger
-    enim strip steak
-    mollit quis officia meatloaf tri-tip swine. Cow ut reprehenderit, buffalo incididunt
-    in filet mignon
-    strip steak pork belly aliquip capicola officia. Labore deserunt esse chicken lorem
-    shoulder tail consectetur
-    cow est ribeye adipisicing. Pig hamburger pork belly enim. Do porchetta minim
-    capicola irure pancetta chuck
-    **fugiat**.
-
-Sausage tenderloin officia jerky nostrud. Laborum elit pastrami non, pig kevin
-    buffalo minim ex quis. Pork belly
-    pork chop officia anim. Irure tempor leberkas kevin adipisicing cupidatat qui
-    buffalo ham aliqua pork belly
-    exercitation eiusmod. Exercitation incididunt rump laborum, t-bone short ribs
-    buffalo ut shankle pork chop
-    bresaola shoulder burgdoggen fugiat. Adipisicing nostrud chicken consequat beef
-    ribs, quis filet mignon do.
-    Prosciutto capicola mollit shankle aliquip do dolore hamburger brisket turducken
-    eu.
-
-Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui beef
-    ribs dolore pariatur.
-    Minim strip steak fugiat nisi est, meatloaf pig aute. Swine rump turducken nulla
-    sausage. Reprehenderit pork
-    belly tongue alcatra, shoulder excepteur in beef bresaola duis ham bacon eiusmod.
-    Doner drumstick short loin,
-    adipisicing cow cillum tenderloin.";
-
-//        dump($cache);die;
-        $contentData = $markdownHelper->parse($contentData);
 
 //          dump($slug, $this);
         return $this->render('article/show.html.twig', [
-            'title'       => ucwords(str_replace('-', '', $slug)),
-            'comments'    => $comments,
-            'contentData' => $contentData,
-            'slug'        => $slug
+            'comments'       => $comments,
+            'article' => $article
         ]);
 //        return new Response(sprintf('Article - %s', $slug));
     }
