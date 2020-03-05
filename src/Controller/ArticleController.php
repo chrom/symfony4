@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
 use App\Services\MarkdownHelper;
 use App\Services\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,9 +35,13 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="app_index")
      */
-    public function index()
+    public function index(ArticleRepository $repository)
     {
-        return $this->render('article/homepage.html.twig');
+        $articles = $repository->findAllPublishedOrderByNewest();
+
+        return $this->render('article/homepage.html.twig', [
+            'articles' => $articles
+        ]);
     }
 
     /**
