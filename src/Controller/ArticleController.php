@@ -59,7 +59,7 @@ class ArticleController extends AbstractController
         /** @var Article $article */
         $article = $repository->findOneBy(['slug' => $slug]);
 
-        if(!$article->getId()){
+        if(!$article){
             throw $this->createNotFoundException(sprintf('This article no exist!'));
         }
 
