@@ -74,3 +74,20 @@ composer require maker --dev
 ```bash 
 ./bin/console doctrine:migrations:migrate
 ```
+
+
+Fixtures:
+
+`composer require orm-fixtures --dev`
+`
+
+ ***
+  - Create fixture class
+ ```bash 
+  ./bin/console make:fixtures
+ ```
+ ***
+  - Load fixtures to DB
+ ```bash 
+  ./bin/console doctrine:fixtures:load
+ ```
