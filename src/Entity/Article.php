@@ -161,4 +161,10 @@ class Article
     {
         return 'images/' . $this->getImage();
     }
+
+    public function incrementHeartCount(): self
+    {
+        $this->heartCount += 1;
+        return $this;
+    }
 }

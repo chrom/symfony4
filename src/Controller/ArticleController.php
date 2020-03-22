@@ -80,11 +80,13 @@ class ArticleController extends AbstractController
      * @param LoggerInterface $logger
      * @return JsonResponse
      */
-    public function toggleArticleHeard($slug, LoggerInterface $logger)
+    public function toggleArticleHeard(Article $article, LoggerInterface $logger, EntityManagerInterface $entityManager)
     {
-        $logger->info($slug);
+        $article->incrementHeartCount();
+        $logger->info('Hard counter was increase.');
+        $entityManager->flush();
 
-//        return new JsonResponse(['hearts' => rand(5, 100)]);
-        return $this->json(['hearts' => rand(5, 100)]);
+
+        return $this->json(['hearts' => $article->getHeartCount()]);
     }
 }
