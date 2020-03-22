@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,18 +20,16 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-     /**
-      * @return Article[] Returns an array of Article objects
-      */
+    /**
+     * @return Article[] Returns an array of Article objects
+     */
 
-    public function findAllPublishedOrderByNewest()
+    public function findAllPublishedOrderByNewest(): array
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.publishedAt IS NOt NULL')
+        return $this->addIsPublishedQueryBuilder()
             ->orderBy('a.publishedAt', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 
@@ -45,4 +44,22 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @return QueryBuilder
+     */
+    private function addIsPublishedQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $this->getOrCreateQueryBuilder($queryBuilder)
+            ->andWhere('a.publishedAt IS NOT NULL');
+    }
+
+    /**
+     * @param QueryBuilder|null $queryBuilder
+     * @return QueryBuilder
+     */
+    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        return $queryBuilder ?: $this->createQueryBuilder('a');
+    }
 }

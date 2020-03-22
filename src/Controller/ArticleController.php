@@ -54,30 +54,17 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/show/{slug}", name="article_show")
-     * @param $slug
+     * @param Article $article
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function show($slug, EntityManagerInterface $entityManager)
+    public function show(Article $article)
     {
-        $repository = $entityManager->getRepository(Article::class);
-        /** @var Article $article */
-        $article = $repository->findOneBy(['slug' => $slug]);
-
-        if(!$article){
-            throw $this->createNotFoundException(sprintf('This article no exist!'));
-        }
-
-
         $comments = [
             'Hi',
             'Uhh',
             'Cool!'
         ];
-
-        if($slug == 'hey'){
-//            $slack->sendMessage('John Doe', 'Hi Andrew, have a new idea!!!');
-        }
 
 //          dump($slug, $this);
         return $this->render('article/show.html.twig', [
