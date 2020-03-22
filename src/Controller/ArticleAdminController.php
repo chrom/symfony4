@@ -67,6 +67,9 @@ Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui 
     Doner drumstick short loin,
     adipisicing cow cillum tenderloin.";
         $article = new Article();
+        $article->setAuthor('Andrew Z')
+        ->setHeartCount(rand(5, 100))
+        ->setImage('asteroid.jpeg');
         $article->setTitle('Why asteroids Taste like bacon')
             ->setSlug(sprintf("why-asteroid-taste-like-bacon-%d", rand(1, 100)))
             ->setContext($contentData);
