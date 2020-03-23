@@ -20,8 +20,7 @@ class ArticleFixtures extends BaseFixtures
             20,
             function (Article $article, $count) {
 
-
-            $contentData = "
+                $contentData = "
  **Spicy jalapeno bacon ipsum dolor amet veniam shank in dolore. Ham hock nisi
     landjaeger cow,
     lorem proident beef ribs aute enim veniam ut cillum pork chuck picanha. Dolore
@@ -68,20 +67,19 @@ Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui 
     belly tongue alcatra, shoulder excepteur in beef bresaola duis ham bacon eiusmod.
     Doner drumstick short loin,
     adipisicing cow cillum tenderloin.";
-            $article->setAuthor($this->faker->name)
-                ->setHeartCount($this->faker->numberBetween(5, 100))
-                ->setImage($this->faker->randomElement(self::$articleImages));
-            $article->setTitle($this->faker->sentence())
-                ->setSlug($this->faker->slug)
-                ->setContext($this->faker->text());
+                $article->setAuthor($this->faker->name)
+                    ->setHeartCount($this->faker->numberBetween(5, 100))
+                    ->setImage($this->faker->randomElement(self::$articleImages))
+                    ->setTitle($this->faker->sentence())
+                    ->setContext($contentData);
 
-            if ($this->faker->boolean(70)){
-                $article->setPublishedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
+                if ($this->faker->boolean(70)) {
+                    $article->setPublishedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
 
-            }
-            $article->setCreatedAt(new \DateTime());
+                }
+                $article->setCreatedAt(new \DateTime());
 
-        });
+            });
         $manager->flush();
     }
 }
