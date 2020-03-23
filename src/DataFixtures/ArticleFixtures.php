@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class ArticleFixtures extends BaseFixtures
@@ -18,7 +19,7 @@ class ArticleFixtures extends BaseFixtures
         $this->createMany(
             Article::class,
             20,
-            function (Article $article, $count) {
+            function (Article $article, $count) use ($manager) {
 
                 $contentData = "
  **Spicy jalapeno bacon ipsum dolor amet veniam shank in dolore. Ham hock nisi
@@ -78,6 +79,12 @@ Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui 
 
                 }
                 $article->setCreatedAt(new \DateTime());
+
+                $comment1 = new Comment();
+                $comment1->setAuthorName($this->faker->name)
+                    ->setContent($this->faker->sentence())
+                    ->setArticle($article);
+                $manager->persist($comment1);
 
             });
         $manager->flush();

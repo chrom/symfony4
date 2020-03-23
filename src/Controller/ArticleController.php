@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
 use App\Services\MarkdownHelper;
 use App\Services\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
@@ -58,17 +59,11 @@ class ArticleController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function show(Article $article)
+    public function show(Article $article, CommentRepository $commentRepository)
     {
-        $comments = [
-            'Hi',
-            'Uhh',
-            'Cool!'
-        ];
-
-//          dump($slug, $this);
+//        $comments = $article->getComments();
+//        $comments = $commentRepository->findBy(['article' => $article]);
         return $this->render('article/show.html.twig', [
-            'comments'       => $comments,
             'article' => $article
         ]);
 //        return new Response(sprintf('Article - %s', $slug));
