@@ -3,11 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
-use App\Entity\Comment;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class ArticleFixtures extends BaseFixtures
 {
+    const ARTICLE_NUMBER = 20;
+
     private static $articleImages = [
         'asteroid.jpeg',
         'mercury.jpeg',
@@ -18,7 +20,7 @@ class ArticleFixtures extends BaseFixtures
     {
         $this->createMany(
             Article::class,
-            20,
+            self::ARTICLE_NUMBER,
             function (Article $article, $count) use ($manager) {
 
                 $contentData = "
@@ -78,14 +80,7 @@ Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui 
                     $article->setPublishedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
 
                 }
-                $article->setCreatedAt(new \DateTime());
-
-                $comment1 = new Comment();
-                $comment1->setAuthorName($this->faker->name)
-                    ->setContent($this->faker->sentence())
-                    ->setArticle($article);
-                $manager->persist($comment1);
-
+                $article->setCreatedAt($this->faker->dateTimeBetween('-200 days', '-100 days'));
             });
         $manager->flush();
     }
