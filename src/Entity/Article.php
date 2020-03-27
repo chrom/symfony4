@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -193,7 +195,7 @@ class Article
      */
     public function getNonDeletedComments(): Collection
     {
-        return $this->comments;
+        return $this->comments->matching(ArticleRepository::createNonDeletedCriteria());
     }
 
     public function addComment(Comment $comment): self
