@@ -100,3 +100,11 @@ bin/console doctrine:database:create
 bin/console doctrine:schema:create
 bin/console doctrine:fixtures:load
  ```
+
+
+
+ ***
+  - Show all config data and all filters
+ ```bash 
+./bin/console debug:twig
+ ```
