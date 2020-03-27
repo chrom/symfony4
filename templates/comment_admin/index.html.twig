@@ -7,7 +7,22 @@
     <div class="row">
         <div class="col-sm-12">
             <hi>Manege comments</hi>
-
+            <form>
+                <div class="input-group mb-3">
+                    <input type="text"
+                           name="q"
+                           class="form-control"
+                           placeholder="Search..."
+                           value="{{ app.request.get('q') }}"
+                    >
+                    <div class="input-group-append">
+                        <button type="submit"
+                                class="btn btn-outline-secondary">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
             <table class="table table-striped">
                 <thead>
                 <tr>
