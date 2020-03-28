@@ -1,19 +1,20 @@
 {% extends 'content_base.html.twig' %}
 
 {% block title %}Manage comments{% endblock %}
-{% block conten_class %}{{ parent() }} show-article-container-border-green{% endblock %}
+
+{% block content_class %}{{ parent() }} show-article-container-border-green{% endblock %}
 
 {% block content_body %}
     <div class="row">
         <div class="col-sm-12">
-            <hi>Manege comments</hi>
+            <h1>Manege comments</h1>
             <form>
                 <div class="input-group mb-3">
                     <input type="text"
                            name="q"
                            class="form-control"
                            placeholder="Search..."
-                           value="{{ app.request.get('q') }}"
+                           value="{{ app.request.query.get('q') }}"
                     >
                     <div class="input-group-append">
                         <button type="submit"
@@ -50,9 +51,16 @@
                             {{ comment.createdAt|ago }}
                         </td>
                     </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            No comments found
+                        </td>
+                    </tr>
 
                 {% endfor %}
                 </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
