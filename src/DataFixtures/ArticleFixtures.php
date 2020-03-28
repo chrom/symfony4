@@ -3,10 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ArticleFixtures extends BaseFixtures
+class ArticleFixtures extends BaseFixtures implements DependentFixtureInterface
 {
     const ARTICLE_NUMBER = 20;
 
@@ -81,7 +82,23 @@ Do mollit deserunt prosciutto laborum. Duis sint tongue quis nisi. Capicola qui 
 
                 }
                 $article->setCreatedAt($this->faker->dateTimeBetween('-200 days', '-100 days'));
+
+                $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
+                /** @var Tag[] $tags */
+                foreach ($tags as $tag){
+                    $article->addTag($tag);
+                }
             });
         $manager->flush();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getDependencies()
+    {
+        return [
+            TagFixture::class,
+        ];
     }
 }
