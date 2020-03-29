@@ -37,7 +37,7 @@ class Article
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $context;
+    private $content;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -105,14 +105,14 @@ class Article
         return $this;
     }
 
-    public function getContext(): ?string
+    public function getContent(): ?string
     {
-        return $this->context;
+        return $this->content;
     }
 
-    public function setContext(?string $context): self
+    public function setContent(?string $content): self
     {
-        $this->context = $context;
+        $this->content = $content;
 
         return $this;
     }
