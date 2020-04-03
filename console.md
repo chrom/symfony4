@@ -112,3 +112,10 @@ bin/console doctrine:fixtures:load
  ```bash 
 ./bin/console make:auth
  ```
+
+ 
+  ***
+   - Show all router
+  ```bash 
+  ./bin/console debug:router 
+  ```
