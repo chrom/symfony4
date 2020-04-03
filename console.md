@@ -101,10 +101,14 @@ bin/console doctrine:schema:create
 bin/console doctrine:fixtures:load
  ```
 
-
-
  ***
   - Show all config data and all filters
  ```bash 
 ./bin/console debug:twig
+ ```
+
+ ***
+  - Make Auth entry point
+ ```bash 
+./bin/console make:auth
  ```

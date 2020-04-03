@@ -1,4 +1,6 @@
 security:
+    encoders:
+        App\Entity\User: 'auto'
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -18,6 +20,12 @@ security:
                     - App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800
+                path:     /
+                remember_me_parameter: remember-me
+
                 # where to redirect after logout
                 # target: app_any_route
 
