@@ -87,6 +87,12 @@ Fixtures:
   ./bin/console make:fixtures
  ```
  ***
+  - Create controller class
+ ```bash 
+  ./bin/console make:controller
+ ```
+
+ ***
   - Load fixtures to DB
  ```bash 
   ./bin/console doctrine:fixtures:load
