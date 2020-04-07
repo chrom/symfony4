@@ -9,7 +9,7 @@ security:
                 class: App\Entity\User
                 property: email
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_ADMIN_ARTICLE, ROLE_ADMIN_COMMENT]
+        ROLE_ADMIN: [ROLE_ADMIN_ARTICLE, ROLE_ADMIN_COMMENT, ROLE_ALLOWED_TO_SWITCH]
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -27,6 +27,7 @@ security:
                 lifetime: 604800
                 path:     /
                 remember_me_parameter: remember-me
+            switch_user: true # ?_switch_user=email@email.com  and exit with ?_switch_user=_exit
 
                 # where to redirect after logout
                 # target: app_any_route
