@@ -125,3 +125,10 @@ bin/console doctrine:fixtures:load
   ```bash 
   ./bin/console debug:router 
   ```
+ 
+
+  ***
+   - For serializing install package 
+  ```bash 
+  composer require serializer 
+  ```
