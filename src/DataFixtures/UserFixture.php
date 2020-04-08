@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\ApiToken;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -25,22 +26,31 @@ class UserFixture extends BaseFixture
 
     protected function loadData(ObjectManager $manager)
     {
-        $this->createMany(10, 'main_users', function (int $i){
+        $this->createMany(10, 'main_users', function (int $i) use ($manager) {
             $user = new User();
             $user->setEmail(sprintf('spacebar%d@example.com', $i));
             $user->setFirstName($this->faker->firstName);
-            if($this->faker->boolean){
+            if ($this->faker->boolean) {
                 $user->setTwitterUsername($this->faker->userName);
             }
             $user->setPassword($this->passwordEncoder->encodePassword($user, 'user'));
+            $apiToken1 = new ApiToken($user);
+            $apiToken2 = new ApiToken($user);
+            $manager->persist($apiToken1);
+            $manager->persist($apiToken2);
+
             return $user;
         });
-        $this->createMany(3, 'admin_users', function (int $i){
+        $this->createMany(3, 'admin_users', function (int $i) use ($manager) {
             $user = new User();
             $user->setEmail(sprintf('admin%d@thespacebar.com', $i));
             $user->setFirstName($this->faker->firstName);
             $user->setRoles(['ROLE_ADMIN']);
             $user->setPassword($this->passwordEncoder->encodePassword($user, 'admin'));
+            $apiToken1 = new ApiToken($user);
+            $apiToken2 = new ApiToken($user);
+            $manager->persist($apiToken1);
+            $manager->persist($apiToken2);
             return $user;
         });
 
