@@ -14,12 +14,19 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+#        api:
+#            pattern: ^/api/
+#            guard:
+#                authenticators:
+#                    - App\Security\ApiTokenAuthenticator
         main:
             anonymous: lazy
             provider: app_user_provider
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+                    - App\Security\ApiTokenAuthenticator
+                entry_point: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
             remember_me:
