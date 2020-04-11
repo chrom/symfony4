@@ -1,0 +1,6 @@
+### Authorization by token, part 2. Use token to authorize.
+GET http://{{host}}/api/account
+Authorization: Bearer {{auth_token}}
+
+###
+
