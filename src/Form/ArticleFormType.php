@@ -4,9 +4,11 @@
 namespace App\Form;
 
 
+use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArticleFormType extends AbstractType
 {
@@ -17,7 +19,15 @@ class ArticleFormType extends AbstractType
                 'help' => 'Choose something catchy!'
             ])
             ->add('title')
+            ->add('publishedAt', null, [
+                'widget' => 'single_text'
+            ])
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(['data_class' => Article::class]);
     }
 
 }
