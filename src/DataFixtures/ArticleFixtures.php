@@ -54,7 +54,7 @@ EOF
 
             $article->setAuthor($this->getRandomReference('main_users'))
                 ->setHeartCount($this->faker->numberBetween(5, 100))
-                ->setImage($this->faker->randomElement(self::$articleImages))
+                ->setImageFilename($this->faker->randomElement(self::$articleImages))
             ;
 
             $tags = $this->getRandomReferences('main_tags', $this->faker->numberBetween(0, 5));
