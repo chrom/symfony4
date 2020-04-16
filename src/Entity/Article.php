@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -17,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Article
 {
     use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -54,7 +56,7 @@ class Article
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image;
+    private $imageFilename;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="article", fetch="EXTRA_LAZY")
@@ -70,6 +72,7 @@ class Article
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="Please set an author")
      */
     private $author;
 
@@ -79,7 +82,7 @@ class Article
         $this->tags = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
@@ -120,21 +123,14 @@ class Article
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(?\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getPublishedAt(): ?\DateTimeInterface
     {
         return $this->publishedAt;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->publishedAt !== null;
     }
 
     public function setPublishedAt(?\DateTimeInterface $publishedAt): self
@@ -156,27 +152,28 @@ class Article
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getImagePath(): string
-    {
-        return 'images/' . $this->getImage();
-    }
-
     public function incrementHeartCount(): self
     {
-        $this->heartCount += 1;
+        $this->heartCount = $this->heartCount + 1;
+
         return $this;
+    }
+
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
+
+    public function getImagePath()
+    {
+        return 'images/'.$this->getImageFilename();
     }
 
     /**
@@ -192,7 +189,9 @@ class Article
      */
     public function getNonDeletedComments(): Collection
     {
-        return $this->comments->matching(ArticleRepository::createNonDeletedCriteria());
+        $criteria = ArticleRepository::createNonDeletedCriteria();
+
+        return $this->comments->matching($criteria);
     }
 
     public function addComment(Comment $comment): self
@@ -256,8 +255,16 @@ class Article
         return $this;
     }
 
-    public function isPublished(): bool
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
     {
-        return $this->publishedAt !== null;
+        if (stripos($this->getTitle(), 'the borg') !== false) {
+            $context->buildViolation('Um.. the Bork kinda makes us nervous')
+                ->atPath('title')
+                ->addViolation();
+        }
     }
+
 }
