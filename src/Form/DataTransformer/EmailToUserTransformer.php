@@ -7,7 +7,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class IdToUserTransformer implements DataTransformerInterface
+class EmailToUserTransformer implements DataTransformerInterface
 {
     private $userRepository;
     private $finderCallback;
@@ -21,7 +21,7 @@ class IdToUserTransformer implements DataTransformerInterface
     /**
      * Render value to form
      *
-     * @param mixed $value
+     * @param User $value
      * @return mixed|string
      */
     public function transform($value)
@@ -29,7 +29,11 @@ class IdToUserTransformer implements DataTransformerInterface
         if (null === $value) {
             return '';
         }
-        return $value;
+
+        if (!$value instanceof User) {
+            throw new \LogicException('The UserSelectTextType can only be used with User objects');
+        }
+        return $value->getEmail();
     }
 
     /**
@@ -45,7 +49,7 @@ class IdToUserTransformer implements DataTransformerInterface
         }
 
         $callback = $this->finderCallback;
-        $user = $callback($this->userRepository, (int)$value);
+        $user = $callback($this->userRepository, $value);
 
         if (!$user) {
             throw new TransformationFailedException(sprintf('No user found with email "%s"', $value));
