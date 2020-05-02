@@ -48,8 +48,7 @@ class EmailToUserTransformer implements DataTransformerInterface
             return;
         }
 
-        $callback = $this->finderCallback;
-        $user = $callback($this->userRepository, $value);
+        $user = ($this->finderCallback)($this->userRepository, $value);
 
         if (!$user) {
             throw new TransformationFailedException(sprintf('No user found with email "%s"', $value));
