@@ -45,7 +45,8 @@ class UserSelectTextType extends AbstractType
                 return $userRepository->findOneBy(['email' => $email]);
             },
             'attr' => [
-                'class' => 'js-user-autocomplete'
+                'class' => 'js-user-autocomplete',
+                'data-autocomplete-url' => $this->router->generate('admin_utility_users')
             ]
         ]);
     }

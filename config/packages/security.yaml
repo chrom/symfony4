@@ -26,12 +26,14 @@ security:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
                     - App\Security\ApiTokenAuthenticator
+
+                # redirect anonymous users to the login page
                 entry_point: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
             remember_me:
                 secret:   '%kernel.secret%'
-                lifetime: 604800
+                lifetime: 2592000
                 path:     /
                 remember_me_parameter: remember-me
             switch_user: true # ?_switch_user=email@email.com  and exit with ?_switch_user=_exit
@@ -42,8 +44,11 @@ security:
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
