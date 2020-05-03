@@ -44,21 +44,17 @@ class UserSelectTextType extends AbstractType
             'finder_callback' => function (UserRepository $userRepository, string $email): ?User {
                 return $userRepository->findOneBy(['email' => $email]);
             },
-            'attr' => [
-                'class' => 'js-user-autocomplete',
-                'data-autocomplete-url' => $this->router->generate('admin_utility_users')
-            ]
         ]);
     }
 
-//    public function buildView(FormView $view, FormInterface $form, array $options)
-//    {
-//        $attr = $view->vars['attr'];
-//        $class = isset($attr['class']) ? $attr['class'].' ' : '';
-//        $class .= 'js-user-autocomplete';
-//
-//        $attr['class'] = $class;
-//        $attr['data-autocomplete-url'] = $this->router->generate('admin_utility_users');
-//        $view->vars['attr'] = $attr;
-//    }
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $attr = $view->vars['attr'];
+        $class = isset($attr['class']) ? $attr['class'].' ' : '';
+        $class .= 'js-user-autocomplete';
+
+        $attr['class'] = $class;
+        $attr['data-autocomplete-url'] = $this->router->generate('admin_utility_users');
+        $view->vars['attr'] = $attr;
+    }
 }
