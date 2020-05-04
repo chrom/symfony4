@@ -35,7 +35,6 @@ class ArticleFormType extends AbstractType
         $builder
             ->add('content', TextareaType::class, [
                 'help' => 'Choose something catchy!',
-                'attr' => ['rows' => 15],
             ])
             ->add('title')
             ->add('publishedAt', null, [
