@@ -20,7 +20,7 @@ class ArticleAdminController extends BaseController
      */
     public function new(EntityManagerInterface $em, Request $request)
     {
-        $form = $this->createForm(ArticleFormType::class);
+        $form = $this->createForm(ArticleFormType::class, new Article());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -47,9 +47,8 @@ class ArticleAdminController extends BaseController
     public function edit(Article $article, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(ArticleFormType::class, $article,
-            [
-//            'include_published_at' => true
-        ]);
+            ['include_published_at' => true]
+        );
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
