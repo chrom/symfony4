@@ -14,7 +14,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $markdownLogger: '@monolog.logger.markdown'
-#            see ./console.md:9
+#            see ./README.md:9
             $isDebug: '%kernel.debug%'
 
 
