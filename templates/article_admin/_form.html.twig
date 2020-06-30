@@ -7,5 +7,7 @@
 {% if articleForm.publishedAt is defined %}
     {{ form_row(articleForm.publishedAt) }}
 {% endif %}
+    {{ form_row(articleForm.location) }}
+    {{ form_row(articleForm.specificLocationName) }}
 <button type="submit" class="btn btn-primary">{{ button_text }}</button>
 {{ form_end(articleForm) }}
