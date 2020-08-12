@@ -118,7 +118,7 @@ class ArticleFormType extends AbstractType
             'star' => array_combine($stars, $stars),
             'interstellar_space' => null,
         ];
-        return isset($locationNameChoices[$location]) ? $locationNameChoices[$location] : null;
+        return $locationNameChoices[$location] ?? null;
     }
 
     private function setupSpecificLocationNameField(FormInterface $form, ?string $location)
