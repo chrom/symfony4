@@ -7,9 +7,13 @@ namespace App\Form;
 use App\Entity\Article;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\PostSubmitEvent;
+use Symfony\Component\Form\Event\PreSetDataEvent;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArticleFormType extends AbstractType
@@ -32,7 +36,7 @@ class ArticleFormType extends AbstractType
         /** @var Article $article */
         $article = $options['data'] ?? null;
         $isEdit = $article && $article->getId();
-        $location = $article ? $article->getLocation() : null;
+
         $builder
             ->add('content', TextareaType::class, [
                 'help' => 'Choose something catchy!',
@@ -42,6 +46,7 @@ class ArticleFormType extends AbstractType
                 ['disabled' => $isEdit]
             )
             ->add('location', ChoiceType::class, [
+                    'placeholder' => 'Choose a location',
                     'choices' => [
                         'The Solar System' => 'solar_system',
                         'Near a star' => 'star',
@@ -54,13 +59,31 @@ class ArticleFormType extends AbstractType
                 'widget' => 'single_text'
             ]);
         }
-        if ($location) {
-            $builder->add('specificLocationName', ChoiceType::class, [
-                'placeholder' => 'Where exactly?',
-                'choices' => $this->getLocationNameChoices($location),
-                'required' => false,
-            ]);
-        }
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (PreSetDataEvent $event) {
+                /** @var Article|null $data */
+                $data = $event->getData();
+                if (!$data) {
+                    return;
+                }
+                $this->setupSpecificLocationNameField(
+                    $event->getForm(),
+                    $data->getLocation()
+                );
+            }
+        );
+
+        $builder->get('location')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (PostSubmitEvent $event) {
+                $form = $event->getForm();
+                $this->setupSpecificLocationNameField(
+                    $form->getParent(),
+                    $form->getData()
+                );
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -96,5 +119,25 @@ class ArticleFormType extends AbstractType
             'interstellar_space' => null,
         ];
         return $locationNameChoices[$location];
+    }
+
+    private function setupSpecificLocationNameField(FormInterface $form, ?string $location)
+    {
+        if (null === $location) {
+            $form->remove('specificLocationName');
+            return;
+        }
+
+        $choices = $this->getLocationNameChoices($location);
+        if (null === $choices) {
+            $form->remove('specificLocationName');
+            return;
+        }
+
+        $form->add('specificLocationName', ChoiceType::class, [
+            'placeholder' => 'Where exactly?',
+            'choices' => $choices,
+            'required' => false,
+        ]);
     }
 }
