@@ -103,4 +103,5 @@ class ArticleAdminController extends BaseController
             'articles' => $articles,
         ]);
     }
+
 }
